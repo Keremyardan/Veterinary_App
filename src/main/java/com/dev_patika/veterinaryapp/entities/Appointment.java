@@ -1,6 +1,7 @@
 package com.dev_patika.veterinaryapp.entities;
 
-import com.sun.istack.NotNull;
+
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,8 +21,8 @@ public class Appointment {
     @Column (name = "appointment_id")
     private long id;
 
-    @NotNull
-    @Column ( name = "appointmentDate")
+
+    @Column ( name = "appointmentDate", nullable = false)
     private LocalDate appointmentDate;
 
 }

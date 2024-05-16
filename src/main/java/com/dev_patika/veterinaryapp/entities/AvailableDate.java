@@ -1,12 +1,10 @@
 package com.dev_patika.veterinaryapp.entities;
 
-import com.sun.istack.NotNull;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.bytebuddy.asm.Advice;
-import org.checkerframework.checker.units.qual.C;
 
 import java.time.LocalDate;
 
@@ -22,8 +20,8 @@ public class AvailableDate {
     @Column (name = "availableDate_id")
     private Long id;
 
-    @NotNull
-    @Column(name = "availableDate")
+
+    @Column(name = "availableDate", nullable = false)
     private LocalDate availabledate;
 
 }

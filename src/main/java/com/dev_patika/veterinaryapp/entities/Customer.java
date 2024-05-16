@@ -1,10 +1,12 @@
 package com.dev_patika.veterinaryapp.entities;
 
-import com.sun.istack.NotNull;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "customers")
@@ -18,23 +20,26 @@ public class Customer {
     @Column(name = "customer_id")
     private Long id;
 
-    @NotNull
-    @Column(name = "customer_name")
+
+    @Column(name = "customer_name", nullable = false)
     private  String name ;
 
-    @NotNull
-    @Column(name = "customer_phone")
+
+    @Column(name = "customer_phone", nullable = false)
     private  String phone ;
 
-    @NotNull
-    @Column(name = "customer_mail")
+
+    @Column(name = "customer_mail", nullable = false)
     private  String mail ;
 
-    @NotNull
-    @Column(name = "customer_address")
+
+    @Column(name = "customer_address", nullable = false)
     private  String address ;
 
-    @NotNull
-    @Column(name = "customer_city")
+
+    @Column(name = "customer_city", nullable = false)
     private  String city ;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Animal> animalList;
 }

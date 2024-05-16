@@ -1,12 +1,12 @@
 package com.dev_patika.veterinaryapp.entities;
 
-import com.sun.istack.NotNull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,22 +17,25 @@ import java.time.LocalDate;
 public class Vaccine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column (name = "vaccine")
+    @Column (name = "vaccine_id")
     private Long id;
 
-    @NotNull
-    @Column (name = "vaccine_name")
+
+    @Column (name = "vaccine_name", nullable = false)
     private String name;
 
-    @NotNull
-    @Column(name = "vaccine_code")
+
+    @Column(name = "vaccine_code", nullable = false)
     private String code;
 
-    @NotNull
-    @Column(name = "vaccine_protectionStartDate")
+
+    @Column(name = "vaccine_protectionStartDate", nullable = false)
     private LocalDate protectionStartDate;
 
-    @NotNull
-    @Column (name = "vaccine_protectionFinishDate")
+
+    @Column (name = "vaccine_protectionFinishDate", nullable = false)
     private LocalDate protectionFinishDate;
+
+    @ManyToMany(mappedBy = "vaccineList")
+    List<Animal> animalList;
 }

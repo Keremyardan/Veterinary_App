@@ -1,11 +1,10 @@
 package com.dev_patika.veterinaryapp.entities;
 
-import com.sun.istack.NotNull;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.checkerframework.checker.units.qual.A;
+
 
 @Entity
 @Table (name = "doctors")
@@ -19,24 +18,24 @@ public class Doctor {
     @GeneratedValue ( strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "doctor_name")
+
+    @Column(name = "doctor_name", nullable = false)
     private String name;
 
-    @NotNull
-    @Column (name = "doctor_phone")
+
+    @Column (name = "doctor_phone", nullable = false)
     private String phone;
 
-    @NotNull
-    @Column (name = "doctor_mail")
+
+    @Column (name = "doctor_mail", nullable = false)
     private String mail;
 
-    @NotNull
-    @Column (name = "doctor_address")
+
+    @Column (name = "doctor_address", nullable = false)
     private String address;
 
-    @NotNull
-    @Column ( name = "doctor_city")
+
+    @Column ( name = "doctor_city", nullable = false)
     private String city;
 
 }
