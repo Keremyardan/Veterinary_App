@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Entity
 @Table (name = "doctors")
@@ -38,4 +40,13 @@ public class Doctor {
     @Column ( name = "doctor_city", nullable = false)
     private String city;
 
+    @OneToMany(mappedBy = "doctor")
+    private List<Appointment> appointmentList;
+
+    @ManyToMany()
+    @JoinTable(
+            name = "doctors_available_dates",
+            joinColumns = @JoinColumn(name = "doctor_id"),
+            inverseJoinColumns = @JoinColumn(name = "appointment_id"))
+    List<AvailableDate> availableDateList;
 }

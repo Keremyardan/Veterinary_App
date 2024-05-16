@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,11 +18,17 @@ public class AvailableDate {
 
     @Id
     @GeneratedValue ( strategy = GenerationType.IDENTITY)
-    @Column (name = "availableDate_id")
+    @Column (name = "available_date_id")
     private Long id;
 
 
     @Column(name = "availableDate", nullable = false)
     private LocalDate availabledate;
 
+
+    @ManyToMany(mappedBy = "availableDateList")
+    List<Doctor> doctorList;
+
+    @OneToMany(mappedBy = "dateAvailable")
+    List<Appointment> appointmentList;
 }

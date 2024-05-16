@@ -5,8 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -25,7 +27,7 @@ public class Vaccine {
     private String name;
 
 
-    @Column(name = "vaccine_code", nullable = false)
+    @Column(name = "vaccine_code", nullable = false, unique = true)
     private String code;
 
 
@@ -38,4 +40,12 @@ public class Vaccine {
 
     @ManyToMany(mappedBy = "vaccineList")
     List<Animal> animalList;
+
+
+    @PrePersist
+    public void generateCode() {
+        this.code = UUID.randomUUID().toString();
+    }
+
+
 }
