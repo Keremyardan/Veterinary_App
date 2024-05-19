@@ -53,4 +53,7 @@ public class Animal {
     @ManyToOne
     @JoinColumn(name="animal_customer_id",referencedColumnName = "customer_id", nullable = false)
     private Customer customer;
+
+    @OneToMany(mappedBy = "animal")
+    private List<Appointment> appointmentList;
 }

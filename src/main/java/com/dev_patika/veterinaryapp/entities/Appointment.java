@@ -32,4 +32,8 @@ public class Appointment {
     @ManyToOne
     @JoinColumn(name="appointment_availability_id",referencedColumnName = "available_date_id", nullable = false)
     private AvailableDate dateAvailable;
+
+    @ManyToOne
+    @JoinColumn(name="animal_appointment_id",referencedColumnName = "animal_id", nullable = false)
+    private Animal animal;
 }
