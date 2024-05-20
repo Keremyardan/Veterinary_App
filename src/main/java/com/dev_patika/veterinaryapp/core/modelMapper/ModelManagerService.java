@@ -1,5 +1,10 @@
 package com.dev_patika.veterinaryapp.core.modelMapper;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 @Service
 public class ModelManagerService implements IModelMapperService{ // This class is an implementation of IModelMapperService interface.
     private final ModelMapper modelMapper;

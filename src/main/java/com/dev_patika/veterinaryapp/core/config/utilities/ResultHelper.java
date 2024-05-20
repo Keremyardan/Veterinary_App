@@ -1,5 +1,6 @@
 package com.dev_patika.veterinaryapp.core.config.utilities;
 
+/*
 public class ResultHelper { // This class contains helper methods for Result objects.
 
     public static <T> ResultData<T> created(T data){
@@ -60,3 +61,5 @@ public class ResultHelper { // This class contains helper methods for Result obj
         return new ResultData<>(false, Msg.APPOINTMENT_ALREADY_EXISTS, "400", null);
     }
 }
+
+ */

@@ -17,9 +17,11 @@ public class CustomerSaveRequest {
     private String number;
 
     @NotNull(message = "Enter a valid mail address")
-    private String email;
+    private String mail;
 
     private String address;
 
     private String city;
+
+    private String phone;
 }

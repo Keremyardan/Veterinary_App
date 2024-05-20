@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 
+/*
 @ControllerAdvice
 public class GlobalExceptionHandler { // This class handles the exceptions.
 
@@ -27,3 +28,5 @@ public class GlobalExceptionHandler { // This class handles the exceptions.
         return new ResponseEntity<>(ResultHelper.validateError(validationErrorList), HttpStatus.BAD_REQUEST);
     }
 }
+
+ */

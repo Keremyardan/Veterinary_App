@@ -10,7 +10,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
+
 public interface AnimalRepo extends JpaRepository<Animal, Long> {
+
+
     @Query("SELECT a FROM Animal a WHERE a.customer.id = :customerId")
     // this method finds the animals by customer id.
     List<Animal> findAllByCustomerId(@Param("customerId") Long customerId);

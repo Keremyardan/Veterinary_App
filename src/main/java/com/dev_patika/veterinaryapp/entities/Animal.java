@@ -43,6 +43,7 @@ public class Animal {
     @Column(name = "animal_dateOfBirth",nullable = false)
     private LocalDate dateOfBirth;
 
+
     public enum GENDER {
         MALE,
         FEMALE
