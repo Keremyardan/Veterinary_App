@@ -2,16 +2,15 @@ package com.dev_patika.veterinaryapp.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Data
-@Table (name = "availableDates")
+@Getter
+@Setter
+@Table (name = "available_dates")
 @AllArgsConstructor
 @NoArgsConstructor
 public class AvailableDate {
@@ -22,8 +21,8 @@ public class AvailableDate {
     private Long id;
 
 
-    @Column(name = "availableDate", nullable = false)
-    private LocalDate availabledate;
+    @Column(name = "available_date", nullable = false)
+    private LocalDate availableDate;
 
 
     @ManyToMany(mappedBy = "availableDateList")

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DoctorRepo extends JpaRepository<Doctor,Long> {
-    boolean existByPhone (String phone);
-    boolean existByEmail (String email);
+    boolean existsByPhone(String phone);
+    boolean existsByEmail (String email);
 }

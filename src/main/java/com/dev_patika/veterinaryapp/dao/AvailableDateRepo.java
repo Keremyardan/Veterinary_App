@@ -10,11 +10,10 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface AvailableDateRepo extends JpaRepository<AvailableDate, Long>{
-    List<AvailableDate> findByDoctorIdAndAvailableDate(Long doctorId, LocalDate date);
+public interface AvailableDateRepo extends JpaRepository<AvailableDate, Long> {
 
-    @Query("SELECT CASE WHEN COUNT(ad) > 0 THEN true ELSE false END FROM AvailableDate ad WHERE ad.doctor.id = :doctorId AND ad.availableDate = :date")
+    List<AvailableDate> findByDoctorList_IdAndAvailableDate(Long doctorId, LocalDate date);
+
+    @Query("SELECT CASE WHEN COUNT(ad) > 0 THEN true ELSE false END FROM AvailableDate ad JOIN ad.doctorList d WHERE d.id = :doctorId AND ad.availableDate = :date")
     boolean isDoctorAvailable(@Param("doctorId") Long doctorId, @Param("date") LocalDate date);
-
-
 }

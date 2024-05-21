@@ -1,16 +1,15 @@
 package com.dev_patika.veterinaryapp.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 
 @Entity
 @Table (name = "doctors")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Doctor {
@@ -30,7 +29,7 @@ public class Doctor {
 
 
     @Column (name = "doctor_mail", nullable = false)
-    private String mail;
+    private String email;
 
 
     @Column (name = "doctor_address", nullable = false)

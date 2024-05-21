@@ -13,6 +13,10 @@ public interface IAnimalService {
 
     Animal saveAnimal(Animal animalSaveRequest);
 
+    Animal update(Long id, Animal animal);
 
+    Animal getById(Long id);
+
+    void delete(Long id);
 
 }

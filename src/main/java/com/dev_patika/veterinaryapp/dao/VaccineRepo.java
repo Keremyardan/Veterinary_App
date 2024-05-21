@@ -13,10 +13,10 @@ public interface VaccineRepo extends JpaRepository<Vaccine,Long> {
 
     List<Vaccine> findByProtectionEndDateBetween(LocalDate startDate, LocalDate endDate);
 
-    List<Vaccine> findByAnimalsId(Long animalId);
+    List<Vaccine> findByAnimals_Id(Long animalId);
 
-    boolean existByName(String name);
+    boolean existsByName(String name);
 
-    boolean existByCode(String code);
+    boolean existsByCode(String code);
 
 }

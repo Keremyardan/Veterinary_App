@@ -1,15 +1,21 @@
 package com.dev_patika.veterinaryapp.core.config;
 
+import com.dev_patika.veterinaryapp.core.config.result.Result;
+import com.dev_patika.veterinaryapp.core.config.result.ResultData;
+import com.dev_patika.veterinaryapp.core.config.utilities.Msg;
+import com.dev_patika.veterinaryapp.core.config.utilities.ResultHelper;
+import com.dev_patika.veterinaryapp.core.exceptions.NotFoundException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
+import org.springframework.validation.FieldError;
 import java.util.List;
+import java.util.stream.Collectors;
 
-/*
+
 @ControllerAdvice
 public class GlobalExceptionHandler { // This class handles the exceptions.
 
@@ -29,4 +35,4 @@ public class GlobalExceptionHandler { // This class handles the exceptions.
     }
 }
 
- */
+

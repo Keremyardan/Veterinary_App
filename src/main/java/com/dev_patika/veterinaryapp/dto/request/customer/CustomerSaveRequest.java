@@ -14,14 +14,12 @@ public class CustomerSaveRequest {
     private String name;
 
     @NotNull(message = "Customer phone number can not be empty")
-    private String number;
+    private String phone;
 
     @NotNull(message = "Enter a valid mail address")
-    private String mail;
+    private String email;
 
     private String address;
 
     private String city;
-
-    private String phone;
 }

@@ -2,15 +2,14 @@ package com.dev_patika.veterinaryapp.entities;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Table(name = "customers")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
@@ -30,7 +29,7 @@ public class Customer {
 
 
     @Column(name = "customer_mail", nullable = false)
-    private  String mail ;
+    private  String email ;
 
 
     @Column(name = "customer_address", nullable = false)
@@ -41,5 +40,5 @@ public class Customer {
     private  String city ;
 
     @OneToMany(mappedBy = "customer")
-    private List<Animal> animalList;
+    private List<Animal> animals;
 }

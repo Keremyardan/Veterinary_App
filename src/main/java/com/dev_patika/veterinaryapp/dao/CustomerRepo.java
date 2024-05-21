@@ -10,10 +10,9 @@ import java.util.List;
 
 @Repository
 public interface CustomerRepo extends JpaRepository<Customer, Long> {
-    @Query("SELECT c FROM Customer WHERE LOWER(c.name) LIKE LOWER (CONCAT('%', :name, '%'))")
+    @Query("SELECT c FROM Customer c WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     List<Customer> findByNameContainingIgnoreCase(@Param("name") String name);
 
-    boolean existByEmail(String email);
-
-    boolean existByPhone(String phone);
+    boolean existsByEmail(String email);
+    boolean existsByPhone(String phone);
 }

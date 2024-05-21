@@ -1,16 +1,17 @@
 package com.dev_patika.veterinaryapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "animals")
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Animal {
@@ -39,7 +40,7 @@ public class Animal {
     @Column(name = "animal_color",nullable = false)
     private  String color ;
 
-
+    //@JsonFormat(pattern="yyyy-MM-dd")
     @Column(name = "animal_dateOfBirth",nullable = false)
     private LocalDate dateOfBirth;
 
