@@ -16,7 +16,7 @@ public interface ICustomerService {
 
     Customer get(Long id);
 
-    boolean delete(Long id);
+    void delete(Long id);
 
     ResultData<Customer> update(Long id, Customer customer);
 

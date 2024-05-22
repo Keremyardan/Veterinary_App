@@ -19,4 +19,7 @@ public interface IAnimalService {
 
     void delete(Long id);
 
+    List<Animal> findByNameContainingIgnoreCase(String name);
+
+    List<Animal> findByCustomerId(Long customerId);
 }

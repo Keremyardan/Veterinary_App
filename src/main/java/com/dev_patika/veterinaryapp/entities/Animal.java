@@ -50,12 +50,9 @@ public class Animal {
         FEMALE
     }
 
-    @ManyToMany()
-    @JoinTable(
-            name = "animal_vaccine",
-            joinColumns = @JoinColumn(name = "animal_id"),
-            inverseJoinColumns = @JoinColumn(name = "vaccine_id"))
-    List<Vaccine> vaccineList;
+    @ManyToOne
+    @JoinColumn(name = "animal_vaccine_id", referencedColumnName = "vaccine_id")
+    private Vaccine vaccine;
 
     @ManyToOne
     @JoinColumn(name="animal_customer_id",referencedColumnName = "customer_id", nullable = false)
@@ -63,4 +60,6 @@ public class Animal {
 
     @OneToMany(mappedBy = "animal")
     private List<Appointment> appointmentList;
+
+
 }

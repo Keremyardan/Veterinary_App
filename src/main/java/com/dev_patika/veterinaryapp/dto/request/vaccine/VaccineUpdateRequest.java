@@ -1,15 +1,14 @@
 package com.dev_patika.veterinaryapp.dto.request.vaccine;
 
 import jakarta.persistence.NamedStoredProcedureQueries;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class VaccineUpdateRequest {
@@ -26,5 +25,5 @@ public class VaccineUpdateRequest {
     private LocalDate protectionStartDate;
 
     @NotNull(message = "Protection end date can not be empty")
-    private LocalDate getProtectionEndDate;
+    private LocalDate protectionEndDate;
 }

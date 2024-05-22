@@ -14,9 +14,9 @@ public interface IVaccineService {
 
     Vaccine get(Long id);
 
-    boolean delete(Long id);
+    void delete(Long id);
 
-    ResultData<Vaccine> update(Vaccine vaccine);
+    ResultData<Vaccine> update(Long id, Vaccine vaccine);
 
     Page<Vaccine> cursor(int page, int size);
 

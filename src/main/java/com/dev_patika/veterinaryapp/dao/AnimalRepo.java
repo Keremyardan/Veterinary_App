@@ -18,9 +18,10 @@ public interface AnimalRepo extends JpaRepository<Animal, Long> {
     @Query("SELECT a FROM Animal a WHERE LOWER(a.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     List<Animal> findByNameContainingIgnoreCase(@Param("name") String name);
 
-    @Query("SELECT a FROM Animal a JOIN a.vaccineList v WHERE v.id = :vaccineId")
+
+    @Query("SELECT a FROM Animal a JOIN a.vaccine v WHERE v.id = :vaccineId")
     List<Animal> findByVaccineId(@Param("vaccineId") Long vaccineId);
 
-    @Query("SELECT a FROM Animal a JOIN a.vaccineList v WHERE v.protectionStartDate >= :startDate AND v.protectionEndDate <= :endDate")
+    @Query("SELECT a FROM Animal a JOIN a.vaccine v WHERE v.protectionStartDate >= :startDate AND v.protectionEndDate <= :endDate")
     List<Animal> findAllByVaccineProtectionStartDateAndEndDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

@@ -10,6 +10,6 @@ public class Msg { // This class contains messages for Result objects.
     public static final String ANIMAL_NOT_FOUND = "Hayvan bulunamadı";
     public static final String SAME_EMAIL = "Bu e-posta adresi ile bir kayıt zaten var.";
     public static final String SAME_PHONE = "Bu telefon numarası ile bir kayıt zaten var.";
-    public static final String SAME_VACCINE_NAME_AND_CODE = "Aynı isim ve kod ile aşı zaten var.";
+    public static final String SAME_VACCINE_NAME_AND_CODE = "Aynı kod ile aşı zaten var.";
     public static final String APPOINTMENT_ALREADY_EXISTS = "Bu tarih ve saatte randevu zaten var." ;
 }

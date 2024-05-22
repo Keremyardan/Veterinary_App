@@ -6,6 +6,7 @@ import com.dev_patika.veterinaryapp.core.config.utilities.Msg;
 import com.dev_patika.veterinaryapp.core.config.utilities.ResultHelper;
 import com.dev_patika.veterinaryapp.core.exceptions.NotFoundException;
 import com.dev_patika.veterinaryapp.dao.CustomerRepo;
+import com.dev_patika.veterinaryapp.entities.Animal;
 import com.dev_patika.veterinaryapp.entities.Customer;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -48,14 +49,31 @@ public class CustomerManager implements ICustomerService {
     }
 
     @Override
-    public boolean delete(Long id) {
-        return false;
+    public void delete(Long id) {
+        Customer customer = this.customerRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
+        this.customerRepo.delete(customer);
     }
 
     @Override
     public ResultData<Customer> update(Long id, Customer customer) {
-        return null;
+        // Check if the customer with the given id exists
+        Customer existingCustomer = this.customerRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
+
+        // Update the details of the existing customer
+        existingCustomer.setName(customer.getName());
+        existingCustomer.setPhone(customer.getPhone());
+        existingCustomer.setEmail(customer.getEmail());
+        existingCustomer.setAddress(customer.getAddress());
+        existingCustomer.setCity(customer.getCity());
+
+        // Save the updated customer in the database
+        Customer updatedCustomer = this.customerRepo.save(existingCustomer);
+
+        // Return the updated customer
+        return ResultHelper.success(updatedCustomer);
     }
+
 
     @Override
     public Page<Customer> cursor(int page, int size) {
@@ -64,6 +82,6 @@ public class CustomerManager implements ICustomerService {
 
     @Override
     public List<Customer> getCustomersByName(String name) {
-        return null;
+        return customerRepo.findByNameContainingIgnoreCase(name);
     }
 }

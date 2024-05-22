@@ -7,6 +7,8 @@ import com.dev_patika.veterinaryapp.dao.AnimalRepo;
 import com.dev_patika.veterinaryapp.dto.request.animal.AnimalSaveRequest;
 import com.dev_patika.veterinaryapp.entities.Animal;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,7 +24,8 @@ public class AnimalManager implements IAnimalService {
 
     @Override
     public Page<Animal> cursor(int page, int size) {
-        return null;
+        Pageable pageable = PageRequest.of(page, size);
+        return this.animalRepo.findAll(pageable);
     }
 
     @Override
@@ -56,4 +59,13 @@ public class AnimalManager implements IAnimalService {
         this.animalRepo.delete(animal);
     }
 
+    @Override
+    public List<Animal> findByNameContainingIgnoreCase(String name) {
+        return this.animalRepo.findByNameContainingIgnoreCase(name);
+    }
+
+    @Override
+    public List<Animal> findByCustomerId(Long customerId) {
+        return this.animalRepo.findAllByCustomerId(customerId);
+    }
 }

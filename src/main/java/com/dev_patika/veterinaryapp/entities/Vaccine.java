@@ -37,7 +37,7 @@ public class Vaccine {
     @Column (name = "vaccine_protectionEndDate", nullable = false)
     private LocalDate protectionEndDate;
 
-    @ManyToMany(mappedBy = "vaccineList")
+    @OneToMany(mappedBy = "vaccine")
     List<Animal> animals;
 
 

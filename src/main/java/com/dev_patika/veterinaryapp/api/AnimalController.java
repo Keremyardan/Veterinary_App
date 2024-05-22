@@ -9,10 +9,13 @@ import com.dev_patika.veterinaryapp.dto.request.animal.AnimalSaveRequest;
 import com.dev_patika.veterinaryapp.dto.response.animal.AnimalResponse;
 import com.dev_patika.veterinaryapp.entities.Animal;
 import com.dev_patika.veterinaryapp.entities.Customer;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/animals")
@@ -23,10 +26,12 @@ public class AnimalController {
     private final ICustomerService customerService;
 
 
+
     public AnimalController(IAnimalService animalService, IModelMapperService modelMapper, ICustomerService customerService) {
         this.animalService = animalService;
         this.modelMapper = modelMapper;
         this.customerService = customerService;
+
     }
 
     @PostMapping("/animal")
@@ -62,5 +67,18 @@ public class AnimalController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAnimalById(@PathVariable("id") Long id) {
         this.animalService.delete(id);
+    }
+
+    @GetMapping("/filter")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public ResultData<List<AnimalResponse>> findAnimalByNameContainingIgnoreCase(@RequestParam("name") String name) {
+        List<Animal> animals = this.animalService.findByNameContainingIgnoreCase(name);
+        if (animals.isEmpty()) {
+            return ResultHelper.animalNotFoundError();
+        }
+        List<AnimalResponse> animalResponses = animals.stream()
+                .map(animal -> this.modelMapper.forResponse().map(animal, AnimalResponse.class))
+                .collect(Collectors.toList());
+        return ResultHelper.success(animalResponses);
     }
 }
