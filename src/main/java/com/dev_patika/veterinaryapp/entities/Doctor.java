@@ -1,5 +1,6 @@
 package com.dev_patika.veterinaryapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -42,10 +43,7 @@ public class Doctor {
     @OneToMany(mappedBy = "doctor")
     private List<Appointment> appointmentList;
 
-    @ManyToMany()
-    @JoinTable(
-            name = "doctors_available_dates",
-            joinColumns = @JoinColumn(name = "doctor_id"),
-            inverseJoinColumns = @JoinColumn(name = "appointment_id"))
-    List<AvailableDate> availableDateList;
+    @JsonIgnore
+    @OneToMany(mappedBy = "doctor")
+    private List<AvailableDate> availableDateList;
 }

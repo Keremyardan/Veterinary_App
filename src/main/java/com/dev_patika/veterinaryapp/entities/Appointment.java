@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -22,7 +23,7 @@ public class Appointment {
 
 
     @Column ( name = "appointmentDate", nullable = false)
-    private LocalDate appointmentDate;
+    private LocalDateTime appointmentDate;
 
     @ManyToOne
     @JoinColumn(name="doctor_appointment_id",referencedColumnName = "doctor_id", nullable = false)
@@ -30,7 +31,7 @@ public class Appointment {
 
     @ManyToOne
     @JoinColumn(name="appointment_availability_id",referencedColumnName = "available_date_id", nullable = false)
-    private AvailableDate dateAvailable;
+    private AvailableDate availableDate;
 
     @ManyToOne
     @JoinColumn(name="animal_appointment_id",referencedColumnName = "animal_id", nullable = false)

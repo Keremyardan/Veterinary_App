@@ -15,7 +15,7 @@ public class DoctorSaveRequest {
     private String name;
 
     @NotNull(message = "Phone number can not be empty")
-    private String number;
+    private String phone;
 
     @Email(message = "Provide a valid mail address")
     @NotNull(message = "Mail address can not be empty")

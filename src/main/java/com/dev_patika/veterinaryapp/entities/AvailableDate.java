@@ -17,7 +17,7 @@ public class AvailableDate {
 
     @Id
     @GeneratedValue ( strategy = GenerationType.IDENTITY)
-    @Column (name = "available_date_id")
+    @Column (name = "available_date_id", columnDefinition = "serial")
     private Long id;
 
 
@@ -25,9 +25,10 @@ public class AvailableDate {
     private LocalDate availableDate;
 
 
-    @ManyToMany(mappedBy = "availableDateList")
-    List<Doctor> doctorList;
+    @ManyToOne(fetch = FetchType.EAGER) // Many available dates can belong to one doctor.
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 
-    @OneToMany(mappedBy = "dateAvailable")
+    @OneToMany(mappedBy = "availableDate")
     List<Appointment> appointmentList;
 }

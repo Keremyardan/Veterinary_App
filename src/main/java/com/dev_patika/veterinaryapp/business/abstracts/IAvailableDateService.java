@@ -21,4 +21,6 @@ public interface IAvailableDateService {
     List<AvailableDate> findByDoctorIdAndAvailableDate(Long doctorId, LocalDate date);
 
     boolean isDoctorAvailable(Long doctorId, LocalDate date);
+
+    List<AvailableDate> findAvailableDatesByDoctorId (Long doctorId);
 }

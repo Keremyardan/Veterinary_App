@@ -11,7 +11,7 @@ public interface IDoctorService {
 
     Doctor get(Long id);
 
-    boolean delete(Long id);
+    void delete(Long id);
 
     ResultData<Doctor> update(Doctor doctor);
 
