@@ -29,6 +29,9 @@ public class AvailableDate {
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
 
+    /*
     @OneToMany(mappedBy = "availableDate")
     List<Appointment> appointmentList;
+
+     */
 }

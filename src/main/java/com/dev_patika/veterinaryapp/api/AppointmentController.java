@@ -37,14 +37,14 @@ public class AppointmentController { // This class contains methods that control
         this.modelMapper = modelMapper;
     }
 
-    @PostMapping("/appoinment")
+    @PostMapping("/appointment")
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<AppointmentResponse> create(@Valid @RequestBody AppointmentSaveRequest appointmentSaveRequest) {
         // This method saves the appointment.
         Appointment appointment = this.modelMapper.forRequest().map(appointmentSaveRequest, Appointment.class);
 
         // Call the save method in the AppointmentManager class and return the result
-        ResultData<Appointment> resultData = this.appointmentService.createAppointment(appointment, appointmentSaveRequest.getDate_time());
+        ResultData<Appointment> resultData = this.appointmentService.create(appointment, appointmentSaveRequest.getDate_time());
         if (!resultData.isSuccess()) {
             return new ResultData<>(false, resultData.getMessage(), "400", null);
         }

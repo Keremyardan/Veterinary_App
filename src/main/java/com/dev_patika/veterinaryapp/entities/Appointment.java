@@ -29,9 +29,14 @@ public class Appointment {
     @JoinColumn(name="doctor_appointment_id",referencedColumnName = "doctor_id", nullable = false)
     private Doctor doctor;
 
+/*
     @ManyToOne
     @JoinColumn(name="appointment_availability_id",referencedColumnName = "available_date_id", nullable = false)
     private AvailableDate availableDate;
+
+
+ */
+
 
     @ManyToOne
     @JoinColumn(name="animal_appointment_id",referencedColumnName = "animal_id", nullable = false)

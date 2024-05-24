@@ -17,7 +17,7 @@ public class AppointmentUpdateRequest { // This data transfer object includes th
     private Long id;
 
     @NotNull(message = "Appointment date cannot be null.")
-    private LocalDateTime appointmentDate;
+    private LocalDateTime date_time;
 
     @NotNull(message = "Animal ID cannot be null.")
     @Min(value = 1, message = "ID can not be smaller than 1")

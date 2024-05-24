@@ -10,6 +10,7 @@ import com.dev_patika.veterinaryapp.dao.AppointmentRepo;
 import com.dev_patika.veterinaryapp.dao.AvailableDateRepo;
 import com.dev_patika.veterinaryapp.entities.Animal;
 import com.dev_patika.veterinaryapp.entities.Appointment;
+import com.dev_patika.veterinaryapp.entities.AvailableDate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,13 +34,14 @@ public class AppointmentManager implements IAppointmentService {
 
 
     @Override
-    public ResultData<Appointment> createAppointment(Appointment appointment, LocalDateTime dateTime) {
+    public ResultData<Appointment> create(Appointment appointment, LocalDateTime dateTime) {
         // Check if the animal exists
         Animal animal = animalRepo.findById(appointment.getAnimal().getId())
                 .orElseThrow(() -> new NotFoundException("Animal with id " + appointment.getAnimal().getId() + " not found"));
         if (animal == null) {
             return ResultHelper.animalNotFoundError();
         }
+
 
         // Check if the doctor is available at the given date
         if (!availableDateRepo.isDoctorAvailable(appointment.getDoctor().getId(), dateTime.toLocalDate())) {
@@ -85,11 +87,9 @@ public class AppointmentManager implements IAppointmentService {
     }
 
     @Override
-    public boolean delete(Long id) {
-        // This method deletes the appointment by id.
-        Appointment appointment = this.get(id);
-        this.appointmentRepo.delete(appointment);
-        return true;
+    public void delete(Long id) {
+    Appointment appointment = this.get(id);
+    this.appointmentRepo.delete(appointment);
     }
 
     @Override

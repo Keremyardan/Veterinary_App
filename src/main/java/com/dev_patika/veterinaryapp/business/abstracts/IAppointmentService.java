@@ -5,12 +5,11 @@ import com.dev_patika.veterinaryapp.entities.Animal;
 import com.dev_patika.veterinaryapp.entities.Appointment;
 import org.springframework.data.domain.Page;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IAppointmentService {
-    ResultData<Appointment> createAppointment(Appointment appointment, LocalDateTime dateTime);
+    ResultData<Appointment> create(Appointment appointment, LocalDateTime dateTime);
 
     List<Appointment> findByDoctorIdAndAppointmentDateBetween(Long doctorId, LocalDateTime startDateTime,LocalDateTime endDateTime);
 
@@ -18,7 +17,7 @@ public interface IAppointmentService {
 
     Appointment get (Long id);
 
-    boolean delete(Long id);
+    void delete(Long id);
 
     ResultData<Appointment> update(Long id, Appointment appointment);
 
