@@ -37,7 +37,7 @@ public class Vaccine {
     @Column (name = "vaccine_protectionEndDate", nullable = false)
     private LocalDate protectionEndDate;
 
-    @OneToMany(mappedBy = "vaccine")
+    @OneToMany(mappedBy = "vaccine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<Animal> animals;
 
 

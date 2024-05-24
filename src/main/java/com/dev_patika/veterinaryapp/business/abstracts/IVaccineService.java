@@ -23,4 +23,6 @@ public interface IVaccineService {
     List<Vaccine> findByAnimalId(Long animalId);
 
     List<Vaccine> findByProtectionEndDateBetween(LocalDate startDate, LocalDate endDate);
+
+    Vaccine findVaccineByNameAndCode(String name, String code);
 }

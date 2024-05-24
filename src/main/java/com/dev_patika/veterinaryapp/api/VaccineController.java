@@ -2,19 +2,24 @@ package com.dev_patika.veterinaryapp.api;
 
 import com.dev_patika.veterinaryapp.business.abstracts.IAnimalService;
 import com.dev_patika.veterinaryapp.business.abstracts.IVaccineService;
+import com.dev_patika.veterinaryapp.core.config.result.Result;
 import com.dev_patika.veterinaryapp.core.config.result.ResultData;
 import com.dev_patika.veterinaryapp.core.config.utilities.ResultHelper;
+import com.dev_patika.veterinaryapp.core.exceptions.ProtectionDateIsNotExpiredException;
 import com.dev_patika.veterinaryapp.core.modelMapper.IModelMapperService;
 import com.dev_patika.veterinaryapp.dto.request.customer.CustomerUpdateRequest;
 import com.dev_patika.veterinaryapp.dto.request.vaccine.VaccinationRequest;
 import com.dev_patika.veterinaryapp.dto.request.vaccine.VaccineSaveRequest;
 import com.dev_patika.veterinaryapp.dto.request.vaccine.VaccineUpdateRequest;
+import com.dev_patika.veterinaryapp.dto.response.CursorResponse;
 import com.dev_patika.veterinaryapp.dto.response.animal.AnimalResponse;
 import com.dev_patika.veterinaryapp.dto.response.customer.CustomerResponse;
 import com.dev_patika.veterinaryapp.dto.response.vaccine.VaccineResponse;
 import com.dev_patika.veterinaryapp.entities.Animal;
 import com.dev_patika.veterinaryapp.entities.Customer;
 import com.dev_patika.veterinaryapp.entities.Vaccine;
+import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -77,7 +82,13 @@ public class VaccineController {
     public ResultData<AnimalResponse> vaccinate(@Valid @RequestBody VaccinationRequest vaccinationRequest) {
         Animal animal = this.animalService.getById(vaccinationRequest.getAnimalID());
         Vaccine newVaccine = this.vaccineService.get(vaccinationRequest.getVaccineID());
-
+        Vaccine vaccine = this.vaccineService.findVaccineByNameAndCode(newVaccine.getName(),newVaccine.getCode());
+        if (vaccine != null) {
+            LocalDate now = LocalDate.now();
+            if (!vaccine.getProtectionEndDate().isAfter(now)) {
+                throw new ProtectionDateIsNotExpiredException("Expiration date is not expired yet");
+            }
+        }
         // Check if the animal has a vaccine and if its protection end date is after the current date
         if (animal.getVaccine() != null && animal.getVaccine().getProtectionEndDate().isAfter(LocalDate.now())) {
             return ResultHelper.vaccineProtectionDateNotArrived();
@@ -88,11 +99,52 @@ public class VaccineController {
         return ResultHelper.success(this.modelMapperService.forResponse().map(updatedAnimal, AnimalResponse.class));
     }
 
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<VaccineResponse> get(@PathVariable("id") Long id) {
+        // This method gets the vaccine by id.
+        Vaccine vaccine = this.vaccineService.get(id);
+        return ResultHelper.success(this.modelMapperService.forResponse().map(vaccine, VaccineResponse.class));
+    }
+
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public ResultData<CursorResponse<VaccineResponse>> cursor(
+            // This method returns the vaccines with pagination.
+            @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(value = "size", required = false, defaultValue = "10") int size)
+    {
+        Page<Vaccine> vaccines = this.vaccineService.cursor(page, size);
+        Page<VaccineResponse> vaccineResponsePage = vaccines
+                .map(vaccine -> this.modelMapperService.forResponse().map(vaccine, VaccineResponse.class));
+
+        return ResultHelper.cursor(vaccineResponsePage);
+    }
+
     @GetMapping("/animal/{animalId}")
     @ResponseStatus(HttpStatus.OK)
     public List<VaccineResponse> getByAnimalId(@PathVariable("animalId") Long animalId) {
 
         List<Vaccine> vaccines = this.vaccineService.findByAnimalId(animalId);
+        return vaccines.stream()
+                .map(vaccine -> this.modelMapperService.forResponse().map(vaccine, VaccineResponse.class))
+                .collect(Collectors.toList());
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable("id") Long id) {
+        this.vaccineService.delete(id);
+    }
+
+
+    @GetMapping("/protection-dates")
+    @ResponseStatus(HttpStatus.OK)
+    public List<VaccineResponse> getByProtectionEndDateBetween(
+            @RequestParam("start_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam("end_date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        // This method returns the vaccines by protection end date between the given dates.
+        List<Vaccine> vaccines = this.vaccineService.findByProtectionEndDateBetween(startDate, endDate);
         return vaccines.stream()
                 .map(vaccine -> this.modelMapperService.forResponse().map(vaccine, VaccineResponse.class))
                 .collect(Collectors.toList());

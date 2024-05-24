@@ -40,10 +40,10 @@ public class Doctor {
     @Column ( name = "doctor_city", nullable = false)
     private String city;
 
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Appointment> appointmentList;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "doctor")
+    @OneToMany(mappedBy = "doctor",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<AvailableDate> availableDateList;
 }

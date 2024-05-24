@@ -50,15 +50,15 @@ public class Animal {
         FEMALE
     }
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "animal_vaccine_id", referencedColumnName = "vaccine_id")
     private Vaccine vaccine;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="animal_customer_id",referencedColumnName = "customer_id", nullable = false)
     private Customer customer;
 
-    @OneToMany(mappedBy = "animal")
+    @OneToMany(mappedBy = "animal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Appointment> appointmentList;
 
 

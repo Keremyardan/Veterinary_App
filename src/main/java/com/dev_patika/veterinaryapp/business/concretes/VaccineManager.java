@@ -27,9 +27,6 @@ public class VaccineManager implements IVaccineService {
     @Override
     public ResultData<Vaccine> save(Vaccine vaccine) {
         // Check if a vaccine with the same name or code already exists
-        if (vaccineRepo.existsByName(vaccine.getName())) {
-            return ResultHelper.vaccineNameAndCodeExists();
-        }
         if (vaccineRepo.existsByCode(vaccine.getCode())) {
             return ResultHelper.vaccineNameAndCodeExists();
         }
@@ -90,6 +87,11 @@ public class VaccineManager implements IVaccineService {
     public List<Vaccine> findByProtectionEndDateBetween(LocalDate startDate, LocalDate endDate) {
         // This method finds the vaccines by protection end date between start date and end date.
         return this.vaccineRepo.findByProtectionEndDateBetween(startDate, endDate);
+    }
+
+    @Override
+    public Vaccine findVaccineByNameAndCode(String name, String code) {
+        return this.vaccineRepo.findByNameAndCode(code,name);
     }
 
 

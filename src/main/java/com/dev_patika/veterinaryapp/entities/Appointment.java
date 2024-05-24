@@ -25,7 +25,7 @@ public class Appointment {
     @Column ( name = "appointmentDate", nullable = false)
     private LocalDateTime appointmentDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="doctor_appointment_id",referencedColumnName = "doctor_id", nullable = false)
     private Doctor doctor;
 
@@ -38,7 +38,7 @@ public class Appointment {
  */
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="animal_appointment_id",referencedColumnName = "animal_id", nullable = false)
     private Animal animal;
 }
