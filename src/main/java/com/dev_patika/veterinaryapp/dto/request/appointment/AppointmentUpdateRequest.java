@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppointmentUpdateRequest { // This data transfer object includes the information of the appointments that the animals have.
+public class AppointmentUpdateRequest { // this data transfer object includes the information of the appointments that the animals have.
 
     @Min(value = 1, message = "ID can not be smaller than 1")
     private Long id;

@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// endpoint creation for available dates
 @RestController
 @RequestMapping("/v1/available-dates")
 public class AvailableDateController {
@@ -30,13 +31,14 @@ public class AvailableDateController {
 
     private final IDoctorService doctorService;
 
-
+    // constructor with parameters
     public AvailableDateController(IAvailableDateService availableDateService, IModelMapperService modelMapperService, IDoctorService doctorService) {
         this.availableDateService = availableDateService;
         this.modelMapperService = modelMapperService;
         this.doctorService = doctorService;
     }
 
+    // a code block for available date save function
     @PostMapping("/available-date")
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<AvailableDateResponse> save(@Valid @RequestBody AvailableDateSaveRequest availableDateSaveRequest) {
@@ -46,6 +48,7 @@ public class AvailableDateController {
         return ResultHelper.created(this.modelMapperService.forResponse().map(saveAvailableDate, AvailableDateResponse.class));
     }
 
+    // code block for to get available dates by doctor id
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<AvailableDate>> getAvailableDateByDoctorId(@PathVariable("id") Long id) {
@@ -57,7 +60,8 @@ public class AvailableDateController {
         System.out.println(availableDates);
         return ResultHelper.success(availableDates);
     }
-
+    // this block provides a pagination system which controls large amount of
+    // data returns and reformat them.
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CursorResponse<AvailableDateResponse>> cursor(
@@ -72,6 +76,7 @@ public class AvailableDateController {
         return ResultHelper.cursor(availableDateResponsePage);
     }
 
+    // code block for available date record update
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AvailableDateResponse> update(@Valid @RequestBody AvailableDateUpdateRequest availableDateUpdateRequest) {
@@ -87,7 +92,7 @@ public class AvailableDateController {
         // Return the updated available date
         return ResultHelper.success(availableDateResponse);
     }
-
+    // code block for available date record deletion
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
    public void deleteAvailableDateById(@PathVariable("id") Long id){

@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ModelMapperConfig { // This class is a configuration class for ModelMapper.
+public class ModelMapperConfig { // this class is a configuration class for ModelMapper.
 
     @Bean(name = "modelMapper")
     public ModelMapper getModelMapper() {

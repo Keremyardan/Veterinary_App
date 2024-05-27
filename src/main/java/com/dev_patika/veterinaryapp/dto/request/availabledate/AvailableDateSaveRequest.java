@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AvailableDateSaveRequest { // This data transfer object includes the information of the available dates that the doctors have.
+public class AvailableDateSaveRequest { // this data transfer object includes the information of the available dates that the doctors have.
     @NotNull(message = "Available date cannot be null.")
     private LocalDate availableDate;
 

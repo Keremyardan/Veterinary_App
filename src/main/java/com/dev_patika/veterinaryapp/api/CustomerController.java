@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// endpoint creation for customers
 @RestController
 @RequestMapping("/v1/customers")
 public class CustomerController {
@@ -31,13 +32,14 @@ public class CustomerController {
 
     private final IModelMapperService modelMapperService;
 
-
+    //constructor with parameters
     public CustomerController(ICustomerService customerService, IAnimalService animalService, IModelMapperService modelMapperService) {
         this.customerService = customerService;
         this.animalService = animalService;
         this.modelMapperService = modelMapperService;
     }
 
+    //code block for customer save function
     @PostMapping("/customer")
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<CustomerResponse> save(@Valid @RequestBody CustomerSaveRequest customerSaveRequest) {
@@ -53,6 +55,7 @@ public class CustomerController {
         return ResultHelper.created(this.modelMapperService.forResponse().map(result.getData(), CustomerResponse.class));
     }
 
+    //code block for customer update fundtion
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CustomerResponse> update(@Valid @RequestBody CustomerUpdateRequest customerUpdateRequest) {
@@ -74,6 +77,7 @@ public class CustomerController {
         return ResultHelper.success(customerResponse);
     }
 
+    // code block for customer get function by id
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CustomerResponse> get(@PathVariable("id") Long id) {
@@ -82,16 +86,18 @@ public class CustomerController {
         return ResultHelper.success(this.modelMapperService.forResponse().map(customer, CustomerResponse.class));
     }
 
+    //customer deletion function
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteCustomerById(@PathVariable("id") Long id) {
         this.customerService.delete(id);
     }
 
+    // this method returns the customers by name.
     @GetMapping("/filter")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<List<CustomerResponse>> getCustomersByName(@RequestParam("name") String name) {
-        // This method returns the customers by name.
+
         List<Customer> customers = this.customerService.getCustomersByName(name);
         List<CustomerResponse> customerResponses = customers.stream()
                 .map(customer -> this.modelMapperService.forResponse().map(customer, CustomerResponse.class))
@@ -99,13 +105,14 @@ public class CustomerController {
         return ResultHelper.success(customerResponses);
     }
 
+    // this method returns the animals by customer id.
     @GetMapping("/{id}/animal")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CursorResponse<AnimalResponse>> getAnimals(
             @PathVariable("id") Long id,
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size) {
-        // This method returns the animals by customer id.
+
         Page<Animal> animals = this.animalService.cursor(page, size);
         List<Animal> animalList = this.animalService.findByCustomerId(id);
         List<AnimalResponse> animalResponseList = new ArrayList<>();

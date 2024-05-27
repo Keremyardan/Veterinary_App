@@ -19,23 +19,24 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
+// service layer for appointment entity
 @Service
 public class AppointmentManager implements IAppointmentService {
     private final AppointmentRepo appointmentRepo;
     private final AvailableDateRepo availableDateRepo;
     private final AnimalRepo animalRepo;
 
-
+// constructor with parameters
     public AppointmentManager(AppointmentRepo appointmentRepo, AvailableDateRepo availableDateRepo, AnimalRepo animalRepo) {
         this.appointmentRepo = appointmentRepo;
         this.availableDateRepo = availableDateRepo;
         this.animalRepo = animalRepo;
     }
 
-
+// overriding Iappointment manager function to create an appointment
     @Override
     public ResultData<Appointment> create(Appointment appointment, LocalDateTime dateTime) {
-        // Check if the animal exists
+        // checks if the animal exists
         Animal animal = animalRepo.findById(appointment.getAnimal().getId())
                 .orElseThrow(() -> new NotFoundException("Animal with id " + appointment.getAnimal().getId() + " not found"));
         if (animal == null) {
@@ -43,49 +44,52 @@ public class AppointmentManager implements IAppointmentService {
         }
 
 
-        // Check if the doctor is available at the given date
+        // checks if the doctor is available at the given date
         if (!availableDateRepo.isDoctorAvailable(appointment.getDoctor().getId(), dateTime.toLocalDate())) {
             return ResultHelper.doctorNotAvailable();
         }
 
-        // Check if the doctor already has an appointment at the given date and time
+        // checks if the doctor already has an appointment at the given date and time
         List<Appointment> existingAppointments = appointmentRepo.findByDoctorIdAndAppointmentDate(appointment.getDoctor().getId(), dateTime);
         if (!existingAppointments.isEmpty()) {
             return ResultHelper.appointmentAlreadyExists();
         }
 
-        // Check if the animal already has an appointment at any time
+        // checks if the animal already has an appointment at any time
         List<Appointment> existingAnimalAppointments = appointmentRepo.findByAnimalId(appointment.getAnimal().getId());
         if (!existingAnimalAppointments.isEmpty()) {
             return ResultHelper.appointmentAlreadyExists();
         }
 
-        // Set the appointment date
+        // sets the appointment date
         appointment.setAppointmentDate(dateTime);
 
-        // Save the new appointment and return it
+        // saves the new appointment and return it
         Appointment savedAppointment = appointmentRepo.save(appointment);
         return ResultHelper.created(savedAppointment);
     }
 
+    // this method returns the appointments of the doctor between the given dates.
     @Override
     public List<Appointment> findByDoctorIdAndAppointmentDateBetween(Long doctorId, LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        // This method returns the appointments of the doctor between the given dates.
+
         return this.appointmentRepo.findByDoctorIdAndAppointmentDateBetween(doctorId, startDateTime, endDateTime);
     }
 
+    // this method returns the appointments of the animal between the given dates.
     @Override
     public List<Appointment> findByAppointmentDateBetweenAndAnimal(LocalDateTime startDateTime, LocalDateTime endDateTime, Animal animal) {
-        // This method returns the appointments of the animal between the given dates.
         return this.appointmentRepo.findByAppointmentDateBetweenAndAnimal(startDateTime, endDateTime, animal);
     }
 
+    // this method gets the appointment by id.
     @Override
     public Appointment get(Long id) {
-        // This method gets the appointment by id.
+
         return this.appointmentRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
+    // overrides interface function to delete an appointment
     @Override
     public void delete(Long id) {
     Appointment appointment = this.get(id);
@@ -94,32 +98,32 @@ public class AppointmentManager implements IAppointmentService {
 
     @Override
     public ResultData<Appointment> update(Long id, Appointment appointment) {
-        // Check if the appointment with the given id exists
+        // checks if the appointment with the given id exists
         Appointment existingAppointment = this.appointmentRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
 
-        // Check if the animal exists
+        // checks if the animal exists
         Animal animal = animalRepo.findById(appointment.getAnimal().getId())
                 .orElse(null);
         if (animal == null) {
             return ResultHelper.animalNotFoundError();
         }
 
-        // Update the details of the existing appointment
+        // updates the details of the existing appointment
         existingAppointment.setAppointmentDate(appointment.getAppointmentDate());
         existingAppointment.setAnimal(appointment.getAnimal());
         existingAppointment.setDoctor(appointment.getDoctor());
 
-        // Save the updated appointment in the database
+        // saves the updated appointment in the database
         Appointment updatedAppointment = this.appointmentRepo.save(existingAppointment);
 
-        // Return the updated appointment
+        // returns the updated appointment
         return ResultHelper.success(updatedAppointment);
     }
 
     @Override
     public Page<Appointment> cursor(int page, int size) {
-        // This method returns the appointments with pagination.
+        // this method returns the appointments with pagination.
         Pageable pageable = PageRequest.of(page, size);
         return this.appointmentRepo.findAll(pageable);
     }

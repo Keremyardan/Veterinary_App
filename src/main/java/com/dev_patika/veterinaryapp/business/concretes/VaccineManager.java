@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+// service layer for vaccine entity
 @Service
 public class VaccineManager implements IVaccineService {
 
@@ -24,37 +25,40 @@ public class VaccineManager implements IVaccineService {
         this.vaccineRepo = vaccineRepo;
     }
 
+    // save method
     @Override
     public ResultData<Vaccine> save(Vaccine vaccine) {
-        // Check if a vaccine with the same name or code already exists
+        // checks if a vaccine with the same name or code already exists
         if (vaccineRepo.existsByCode(vaccine.getCode())) {
             return ResultHelper.vaccineNameAndCodeExists();
         }
 
-        // Save the new vaccine and return it
+        // saves the new vaccine and return it
         Vaccine savedVaccine = vaccineRepo.save(vaccine);
         return ResultHelper.created(savedVaccine);
     }
 
     @Override
     public Vaccine get(Long id) {
-        // This method gets the vaccine by id.
+        // this method gets the vaccine by id.
         return this.vaccineRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
+    //vaccine delete method
     @Override
     public void delete(Long id) {
         Vaccine vaccine = this.vaccineRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
         this.vaccineRepo.delete(vaccine);
     }
 
+    //update method for vaccine
     @Override
     public ResultData<Vaccine> update(Long id,Vaccine vaccine) {
-        // Check if the vaccine exists
+        // checks if the vaccine exists
         Vaccine existingVaccine = this.vaccineRepo.findById(vaccine.getId())
                 .orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
 
-        // Check if a vaccine with the same name or code already exists
+        // checks if a vaccine with the same name or code already exists
         if (vaccineRepo.existsByName(vaccine.getName())) {
             return ResultHelper.vaccineNameAndCodeExists();
         }
@@ -62,7 +66,7 @@ public class VaccineManager implements IVaccineService {
             return ResultHelper.vaccineNameAndCodeExists();
         }
 
-        // Update the vaccine
+        // updates the vaccine
         existingVaccine.setName(vaccine.getName());
         existingVaccine.setCode(vaccine.getCode());
         existingVaccine.setProtectionStartDate(vaccine.getProtectionStartDate());
@@ -78,6 +82,7 @@ public class VaccineManager implements IVaccineService {
         return this.vaccineRepo.findAll(pageable);
     }
 
+    // find vaccines by animal id
     @Override
     public List<Vaccine> findByAnimalId(Long animalId) {
         return this.vaccineRepo.findByAnimals_Id(animalId);
@@ -85,10 +90,11 @@ public class VaccineManager implements IVaccineService {
 
     @Override
     public List<Vaccine> findByProtectionEndDateBetween(LocalDate startDate, LocalDate endDate) {
-        // This method finds the vaccines by protection end date between start date and end date.
+        // this method finds the vaccines by protection end date between start date and end date.
         return this.vaccineRepo.findByProtectionEndDateBetween(startDate, endDate);
     }
 
+    // find vaccines by name and code
     @Override
     public Vaccine findVaccineByNameAndCode(String name, String code) {
         return this.vaccineRepo.findByNameAndCode(code,name);

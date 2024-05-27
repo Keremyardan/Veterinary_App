@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.print.Doc;
 
+
+//service layer for doctor entity
 @Service
 public class DoctorManager implements IDoctorService {
 
@@ -23,6 +25,7 @@ public class DoctorManager implements IDoctorService {
         this.doctorRepo = doctorRepo;
     }
 
+    // save method for doctor
     @Override
     public ResultData<Doctor> save(Doctor doctor) {
         if(doctorRepo.existsByEmail(doctor.getEmail())) {
@@ -36,29 +39,32 @@ public class DoctorManager implements IDoctorService {
         return ResultHelper.created(doctor);
     }
 
+    //get doctor by id
     @Override
     public Doctor get(Long id) {
        return this.doctorRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
+    // delete doctor by id
     @Override
     public void delete(Long id) {
         Doctor doctor = this.doctorRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
         this.doctorRepo.delete(doctor);
     }
 
+    // doctor update method
     @Override
     public ResultData<Doctor> update(Doctor doctor) {
-        // Retrieve the existing doctor by ID
+        // retrieves the existing doctor by ID
         Doctor existingDoctor = doctorRepo.findById(doctor.getId())
                 .orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
 
-        // Check if a doctor with the same email already exists and is not the current doctor
+        // checks if a doctor with the same email already exists and is not the current doctor
         if (doctorRepo.existsByEmail(doctor.getEmail()) && !existingDoctor.getEmail().equals(doctor.getEmail())) {
             return ResultHelper.EmailExists();
         }
 
-        // Check if a doctor with the same phone already exists and is not the current doctor
+        // checks if a doctor with the same phone already exists and is not the current doctor
         if(doctorRepo.existsByPhone(doctor.getPhone())&& !existingDoctor.getPhone().equals(doctor.getPhone())) {
             return ResultHelper.PhoneExists();
         }

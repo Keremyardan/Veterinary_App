@@ -3,7 +3,7 @@ package com.dev_patika.veterinaryapp.core.config.result;
 import lombok.Getter;
 
 @Getter
-public class Result { // This class is a generic class for Result objects.
+public class Result { // this class is a generic class for Result objects.
     private boolean status;
     private String message;
     private String httpCode;

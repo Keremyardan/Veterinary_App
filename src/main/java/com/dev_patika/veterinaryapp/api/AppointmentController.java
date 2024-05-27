@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// endpoint creation for appointment class
 @RestController
 @RequestMapping("/v1/appointments")
 public class AppointmentController { // This class contains methods that control the Appointment endpoints.
@@ -30,6 +31,7 @@ public class AppointmentController { // This class contains methods that control
     private final IAnimalService animalService;
     private final IModelMapperService modelMapper;
 
+    // constructor with parameters
     public AppointmentController(IAppointmentService appointmentService, IAvailableDateService availableDateService, IAnimalService animalService, IModelMapperService modelMapper) {
         this.appointmentService = appointmentService;
         this.availableDateService = availableDateService;
@@ -37,6 +39,7 @@ public class AppointmentController { // This class contains methods that control
         this.modelMapper = modelMapper;
     }
 
+    // endpoint for appointment saving function
     @PostMapping("/appointment")
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<AppointmentResponse> create(@Valid @RequestBody AppointmentSaveRequest appointmentSaveRequest) {
@@ -51,7 +54,7 @@ public class AppointmentController { // This class contains methods that control
         AppointmentResponse appointmentResponse = this.modelMapper.forResponse().map(resultData.getData(), AppointmentResponse.class);
         return ResultHelper.success(appointmentResponse);
     }
-
+    // endpoint for appointment finding by id function
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AppointmentResponse> get(@PathVariable("id") Long id) {
@@ -60,6 +63,8 @@ public class AppointmentController { // This class contains methods that control
         return ResultHelper.success(this.modelMapper.forResponse().map(appointment, AppointmentResponse.class));
     }
 
+    // this block provides a pagination system which controls large amount of
+    // data returns and reformat them.
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CursorResponse<AppointmentResponse>> cursor(
@@ -74,6 +79,7 @@ public class AppointmentController { // This class contains methods that control
         return ResultHelper.cursor(appointmentResponsePage);
     }
 
+    // a code block to update an appointment record
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AppointmentResponse> update(@Valid @RequestBody AppointmentUpdateRequest appointmentUpdateRequest) {
@@ -95,6 +101,7 @@ public class AppointmentController { // This class contains methods that control
         return ResultHelper.success(appointmentResponse);
     }
 
+    // a code block to delete an appointment record
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Result delete(@PathVariable("id") Long id) {
@@ -103,10 +110,11 @@ public class AppointmentController { // This class contains methods that control
         return ResultHelper.ok();
     }
 
+    // this method returns the appointments by doctor id.
     @GetMapping("/doctor/{doctorId}")
     @ResponseStatus(HttpStatus.OK)
     public List<AppointmentResponse> getByDoctorIdAndAppointmentDateBetween(
-            // This method returns the appointments by doctor id.
+
             @PathVariable("doctorId") Long doctorId,
             @RequestParam("start_date_time") LocalDateTime startDateTime,
             @RequestParam("end_date_time") LocalDateTime endDateTime) {
@@ -115,11 +123,11 @@ public class AppointmentController { // This class contains methods that control
                 .map(appointment -> this.modelMapper.forResponse().map(appointment, AppointmentResponse.class))
                 .collect(Collectors.toList());
     }
-
+    // this method returns the appointments by animal id.
     @GetMapping("/animal/{animalId}")
     @ResponseStatus(HttpStatus.OK)
     public List<AppointmentResponse> getByAnimalIdAndAppointmentDateBetween(
-            // This method returns the appointments by animal id.
+
             @PathVariable("animalId") Long animalId,
             @RequestParam("start_date_time") LocalDateTime startDateTime,
             @RequestParam("end_date_time") LocalDateTime endDateTime) {

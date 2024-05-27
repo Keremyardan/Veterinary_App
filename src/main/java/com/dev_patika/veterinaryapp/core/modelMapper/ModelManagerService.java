@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ModelManagerService implements IModelMapperService{ // This class is an implementation of IModelMapperService interface.
+public class ModelManagerService implements IModelMapperService{ // this class is an implementation of IModelMapperService interface.
     private final ModelMapper modelMapper;
 
     @Autowired

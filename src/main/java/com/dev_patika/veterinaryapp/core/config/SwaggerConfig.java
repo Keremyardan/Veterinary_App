@@ -13,7 +13,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     public GroupedOpenApi groupedOpenApi() {
         return GroupedOpenApi.builder()
                 .group("api")
-                .pathsToMatch("/v1/animals") // API'nin rotası
+                .pathsToMatch("/v1/animals") // route for mvc path
                 .build();
     }
 

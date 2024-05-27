@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.print.Doc;
 import javax.validation.Valid;
 
+// endpoint creation for doctor entity
 @RestController
 @RequestMapping("/v1/doctors")
 public class DoctorController {
@@ -26,11 +27,13 @@ public class DoctorController {
 
     private final IModelMapperService modelMapperService;
 
+    // constructor with parameters
     public DoctorController(IDoctorService doctorService, IModelMapperService modelMapperService) {
         this.doctorService = doctorService;
         this.modelMapperService = modelMapperService;
     }
 
+    // code block for doctor save function
     @PostMapping("doctor")
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<DoctorResponse> save(@Valid @RequestBody DoctorSaveRequest doctorSaveRequest) {
@@ -43,6 +46,7 @@ public class DoctorController {
         return ResultHelper.created(this.modelMapperService.forResponse().map(result.getData(), DoctorResponse.class));
     }
 
+    //code block for getting doctors by id
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<DoctorResponse> get(@PathVariable("id") Long id) {
@@ -61,6 +65,7 @@ public class DoctorController {
         return ResultHelper.cursor(doctorResponsePage);
     }
 
+    //update method for doctors
     @PutMapping("/update")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public  ResultData<DoctorResponse> update(@Valid @RequestBody DoctorUpdateRequest doctorUpdateRequest){
@@ -73,6 +78,7 @@ public class DoctorController {
         return ResultHelper.success(this.modelMapperService.forResponse().map(result.getData(),DoctorResponse.class));
     }
 
+    // delete method by doctor id
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
    public void deleteDoctorById(@PathVariable("id") Long id){

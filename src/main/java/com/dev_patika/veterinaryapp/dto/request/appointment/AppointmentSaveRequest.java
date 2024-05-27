@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AppointmentSaveRequest { // This data transfer object includes the information of the appointments that the animals have.
+public class AppointmentSaveRequest { // this data transfer object includes the information of the appointments that the animals have.
     @NotNull(message = "Appointment date cannot be null.")
     private LocalDateTime date_time;
 

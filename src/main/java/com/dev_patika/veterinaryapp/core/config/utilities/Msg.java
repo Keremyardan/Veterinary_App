@@ -1,6 +1,6 @@
 package com.dev_patika.veterinaryapp.core.config.utilities;
 
-public class Msg { // This class contains messages for Result objects.
+public class Msg { // this class contains messages for Result objects.
     public static final String CREATED = "Data addition is successful";
     public static final String OK = "Transaction successful";
     public static final String VALIDATE_ERROR = "Data validation error";

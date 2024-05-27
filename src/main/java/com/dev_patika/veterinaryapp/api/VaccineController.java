@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//endpoint for vaccine entity
 @RestController()
 @RequestMapping("/v1/vaccines")
 public class VaccineController {
@@ -36,13 +37,14 @@ public class VaccineController {
     private final IAnimalService animalService;
 
     private  final IModelMapperService modelMapperService;
-
+//constructor with parameters
     public VaccineController(IVaccineService vaccineService, IAnimalService animalService, IModelMapperService modelMapperService) {
         this.vaccineService = vaccineService;
         this.animalService = animalService;
         this.modelMapperService = modelMapperService;
     }
 
+    // save method for vaccines
     @PostMapping("/vaccine")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<VaccineResponse> save (@Valid @RequestBody VaccineSaveRequest vaccineSaveRequest) {
@@ -57,6 +59,8 @@ public class VaccineController {
 
         return ResultHelper.created(this.modelMapperService.forResponse().map(result.getData(), VaccineResponse.class));
     }
+
+    //update method for vaccines
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<VaccineResponse> update(@Valid @RequestBody VaccineUpdateRequest vaccineUpdateRequest) {
@@ -77,6 +81,7 @@ public class VaccineController {
         return ResultHelper.success(vaccineResponse);
     }
 
+    //code block for vaccination process
     @PostMapping("/vaccinate")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AnimalResponse> vaccinate(@Valid @RequestBody VaccinationRequest vaccinationRequest) {
@@ -99,6 +104,7 @@ public class VaccineController {
         return ResultHelper.success(this.modelMapperService.forResponse().map(updatedAnimal, AnimalResponse.class));
     }
 
+    //get method by vaccine id
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<VaccineResponse> get(@PathVariable("id") Long id) {
@@ -107,6 +113,8 @@ public class VaccineController {
         return ResultHelper.success(this.modelMapperService.forResponse().map(vaccine, VaccineResponse.class));
     }
 
+    // this block provides a pagination system which controls large amount of
+    // data returns and reformat them.
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public ResultData<CursorResponse<VaccineResponse>> cursor(
@@ -121,6 +129,7 @@ public class VaccineController {
         return ResultHelper.cursor(vaccineResponsePage);
     }
 
+    // vaccine getter by animal id
     @GetMapping("/animal/{animalId}")
     @ResponseStatus(HttpStatus.OK)
     public List<VaccineResponse> getByAnimalId(@PathVariable("animalId") Long animalId) {
@@ -131,13 +140,14 @@ public class VaccineController {
                 .collect(Collectors.toList());
     }
 
+    // delete method for vaccine
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable("id") Long id) {
         this.vaccineService.delete(id);
     }
 
-
+    //protection date getters
     @GetMapping("/protection-dates")
     @ResponseStatus(HttpStatus.OK)
     public List<VaccineResponse> getByProtectionEndDateBetween(

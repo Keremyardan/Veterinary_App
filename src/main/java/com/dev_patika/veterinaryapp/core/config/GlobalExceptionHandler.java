@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 
 @ControllerAdvice
-public class GlobalExceptionHandler { // This class handles the exceptions.
+public class GlobalExceptionHandler { // this class handles the exceptions.
 
     @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
     public ResponseEntity<Result> handleNotFoundException(NotFoundException e) {

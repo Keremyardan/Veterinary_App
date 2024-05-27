@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AvailableDateUpdateRequest { // This data transfer object includes the information of the available dates that the doctors have.
+public class AvailableDateUpdateRequest { // this data transfer object includes the information of the available dates that the doctors have.
 
     @Min(value = 1, message = "ID can not be smaller than 1")
     private Long id;

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
+// service layer for animal entity
 @Service
 public class AnimalManager implements IAnimalService {
 
@@ -28,11 +29,13 @@ public class AnimalManager implements IAnimalService {
         return this.animalRepo.findAll(pageable);
     }
 
+    // overriding for Ianimal service interface due to save an animal
     @Override
     public Animal saveAnimal(Animal animal) {
         return this.animalRepo.save(animal);
     }
 
+    // overriding for Ianimal service interface due to update an animal
     @Override
     public Animal update(Long id, Animal animal) {
         Animal existingAnimal =  this.animalRepo.findById(id).orElseThrow(()-> new NotFoundException(Msg.NOT_FOUND));
@@ -48,22 +51,26 @@ public class AnimalManager implements IAnimalService {
         return this.animalRepo.save(existingAnimal);
     }
 
+    // overriding for Ianimal service interface due to get an animal by id
     @Override
     public Animal getById(Long id) {
         return this.animalRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
+    // overriding for Ianimal service interface due to delete an animal
     @Override
     public void delete(Long id) {
         Animal animal = this.animalRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
         this.animalRepo.delete(animal);
     }
 
+    // overriding for Ianimal service interface due to find an animal by name
     @Override
     public List<Animal> findByNameContainingIgnoreCase(String name) {
         return this.animalRepo.findByNameContainingIgnoreCase(name);
     }
 
+    // overriding for Ianimal service interface due to find an animal by customer id
     @Override
     public List<Animal> findByCustomerId(Long customerId) {
         return this.animalRepo.findAllByCustomerId(customerId);

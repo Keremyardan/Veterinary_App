@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AnimalUpdateRequest { // This data transfer object includes the information of the animals that the customers have.
+public class AnimalUpdateRequest { // this data transfer object includes the information of the animals that the customers have.
     @Min(value = 1, message = "Animal ID should be greater than 1")
     private Long id;
 

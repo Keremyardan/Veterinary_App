@@ -17,6 +17,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// Endpoint for animal entity
 @RestController
 @RequestMapping("/v1/animals")
 public class AnimalController {
@@ -26,7 +27,7 @@ public class AnimalController {
     private final ICustomerService customerService;
 
 
-
+// constructor with parameters
     public AnimalController(IAnimalService animalService, IModelMapperService modelMapper, ICustomerService customerService) {
         this.animalService = animalService;
         this.modelMapper = modelMapper;
@@ -34,6 +35,7 @@ public class AnimalController {
 
     }
 
+    // endpoint for animal saving function
     @PostMapping("/animal")
     @ResponseStatus(HttpStatus.CREATED)
     public ResultData<AnimalResponse> save(@Valid @RequestBody AnimalSaveRequest animalSaveRequest) {
@@ -47,6 +49,7 @@ public class AnimalController {
         return ResultHelper.created(this.modelMapper.forResponse().map(saveAnimal, AnimalResponse.class));
     }
 
+    // endpoint for animal update function
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AnimalResponse> update(@PathVariable("id") Long id, @Valid @RequestBody AnimalSaveRequest animalSaveRequest) {
@@ -57,18 +60,21 @@ public class AnimalController {
         return ResultHelper.success(this.modelMapper.forRequest().map(updatedAnimal,AnimalResponse.class));
     }
 
+    // endpoint for animal finding by id function
     @GetMapping("/animal/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ResultData<AnimalResponse> findAnimalById(@PathVariable("id") Long id) {
         Animal animal = this.animalService.getById(id);
         return ResultHelper.success(this.modelMapper.forRequest().map(animal, AnimalResponse.class));
     }
+    // endpoint for animal delete function
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteAnimalById(@PathVariable("id") Long id) {
         this.animalService.delete(id);
     }
 
+    // endpoint for animal filter by name function
     @GetMapping("/filter")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ResultData<List<AnimalResponse>> findAnimalByNameContainingIgnoreCase(@RequestParam("name") String name) {

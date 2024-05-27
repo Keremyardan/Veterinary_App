@@ -15,19 +15,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+// service layer for customer entity
 @Service
 public class CustomerManager implements ICustomerService {
 
     private final CustomerRepo customerRepo;
     private final ModelMapper modelMapper;
 
+    //constructor with parameters
     public CustomerManager(CustomerRepo customerRepo, ModelMapper modelMapper) {
         this.customerRepo = customerRepo;
         this.modelMapper = modelMapper;
     }
 
 
+    // save method
     @Override
     public ResultData<Customer> save(Customer customer) {
         if (customerRepo.existsByEmail(customer.getEmail())) {
@@ -37,40 +39,42 @@ public class CustomerManager implements ICustomerService {
             return ResultHelper.PhoneExists();
         }
 
-        // Save the new customer and return it
+        // saves the new customer and return it
         Customer savedCustomer = customerRepo.save(customer);
         return ResultHelper.created(savedCustomer);
     }
 
     @Override
     public Customer get(Long id) {
-        // This method gets the customer by id.
+        // this method gets the customer by id.
         return this.customerRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
     }
 
+    //delete function by customer id
     @Override
     public void delete(Long id) {
         Customer customer = this.customerRepo.findById(id).orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
         this.customerRepo.delete(customer);
     }
 
+    // update function for customer
     @Override
     public ResultData<Customer> update(Long id, Customer customer) {
-        // Check if the customer with the given id exists
+        // checks if the customer with the given id exists
         Customer existingCustomer = this.customerRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException(Msg.NOT_FOUND));
 
-        // Update the details of the existing customer
+        // updates the details of the existing customer
         existingCustomer.setName(customer.getName());
         existingCustomer.setPhone(customer.getPhone());
         existingCustomer.setEmail(customer.getEmail());
         existingCustomer.setAddress(customer.getAddress());
         existingCustomer.setCity(customer.getCity());
 
-        // Save the updated customer in the database
+        // saves the updated customer in the database
         Customer updatedCustomer = this.customerRepo.save(existingCustomer);
 
-        // Return the updated customer
+        // returns the updated customer
         return ResultHelper.success(updatedCustomer);
     }
 
@@ -80,6 +84,7 @@ public class CustomerManager implements ICustomerService {
         return null;
     }
 
+    // method for customer getting by id
     @Override
     public List<Customer> getCustomersByName(String name) {
         return customerRepo.findByNameContainingIgnoreCase(name);
