@@ -21,7 +21,7 @@ Installation
 
 Contributing
 
-This project is open source and contributions are welcome. To contribute, please follow the steps below:
+This project is open sourced and contributions are always welcome. To contribute, please follow the steps below:
 
 1. Fork the project
 2. Create a Feature Branch in your own Fork (`git checkout -b feature/AmazingFeature`)
